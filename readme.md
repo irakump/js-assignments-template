@@ -1,6 +1,7 @@
 # HTML/JS starter template
 
-This is first template to be used for JS-assignments.
+This template can be used for JS-assignments.
+Create new branch for each assignment.
 
 - prettier config
 - eslint config
