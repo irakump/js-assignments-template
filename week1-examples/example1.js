@@ -1,5 +1,5 @@
-function greeting() {
+function example() {
   console.log('Example');
 }
 
-greeting();
+example();
