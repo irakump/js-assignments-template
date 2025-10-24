@@ -1,7 +1,3 @@
-# HTML/JS starter template
+# Week 1 JS assignments - Conditional expressions and loops
 
-This template can be used for JS-assignments.
-Create new branch for each assignment.
-
-- prettier config
-- eslint config
+[ Here should be a link to users.metropolia.fi ]
