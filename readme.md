@@ -9,5 +9,5 @@
 - Task 5: [Sum of natural integers](https://users.metropolia.fi/~iraku/Ohjelmistotuotanto/web-assignments/week1/assignments/js/js-recap1/task5/task5.html)
 - Task 6: [Multiplication table](https://users.metropolia.fi/~iraku/Ohjelmistotuotanto/web-assignments/week1/assignments/js/js-recap1/task6/task6.html)
 
-### Arrays and functions
+## Arrays and functions
 [JS-recap 2]() [here should be link to js2 assignments]
