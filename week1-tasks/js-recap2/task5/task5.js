@@ -22,18 +22,14 @@ function sortArray(numbers, order) {
   return numbers;
 }
 
-let numbers = [1, -4, 6, 2, 40, 5];
+const numbers = [1, -4, 6, 2, 40, 5];
 console.log('Original numbers: ' + numbers);
 
-numbers = sortArray(numbers, 'asc');
-console.log('Sorted numbers (asceding): ' + numbers);
+console.log('Sorted numbers (ascending): ' + sortArray(numbers, 'asc'));
+console.log('Sorted numbers (descending): ' + sortArray(numbers, 'desc'));
 
-numbers = sortArray(numbers, 'desc');
-console.log('Sorted numbers (desceding): ' + numbers);
-
-let evenNumbers = [10, 2, -4, 16, 26, 8];
+const evenNumbers = [10, 2, -4, 16, 26, 8];
 console.log('\nOriginal even numbers: ' + evenNumbers)
 
-evenNumbers = sortArray(evenNumbers, 'asc');
-console.log('Sorted even numbers (asceding): ' + evenNumbers);
-console.log('Sorted even numbers (desceding): ' + sortArray(evenNumbers, 'desc'));
+console.log('Sorted even numbers (ascending): ' + sortArray(evenNumbers, 'asc'));
+console.log('Sorted even numbers (descending): ' + sortArray(evenNumbers, 'desc'));
