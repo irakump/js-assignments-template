@@ -9,5 +9,10 @@
 - Task 5: [Sum of natural integers](https://users.metropolia.fi/~iraku/Ohjelmistotuotanto/web-assignments/week1/assignments/js/js-recap1/task5/task5.html)
 - Task 6: [Multiplication table](https://users.metropolia.fi/~iraku/Ohjelmistotuotanto/web-assignments/week1/assignments/js/js-recap1/task6/task6.html)
 
-## Arrays and functions
-[JS-recap 2]() [here should be link to js2 assignments]
+## Arrays and functions ([JS-recap 2](https://users.metropolia.fi/~iraku/Ohjelmistotuotanto/web-assignments/week1/assignments/js/js-recap2/))
+- Task 1: [Array operations](https://users.metropolia.fi/~iraku/Ohjelmistotuotanto/web-assignments/week1/assignments/js/js-recap2/task1/task1.html)
+- Task 2: [Array operations with numbers](https://users.metropolia.fi/~iraku/Ohjelmistotuotanto/web-assignments/week1/assignments/js/js-recap2/task2/task2.html)
+- Task 3: [Even number extractor](https://users.metropolia.fi/~iraku/Ohjelmistotuotanto/web-assignments/week1/assignments/js/js-recap2/task3/task3.html)
+- Task 4: [Array sorter](https://users.metropolia.fi/~iraku/Ohjelmistotuotanto/web-assignments/week1/assignments/js/js-recap2/task4/task4.html)
+- Task 5: [Enhanced array sorter](https://users.metropolia.fi/~iraku/Ohjelmistotuotanto/web-assignments/week1/assignments/js/js-recap2/task5/task5.html)
+- Task 6: [Movie rating tracker](https://users.metropolia.fi/~iraku/Ohjelmistotuotanto/web-assignments/week1/assignments/js/js-recap2/task6/task6.html)
