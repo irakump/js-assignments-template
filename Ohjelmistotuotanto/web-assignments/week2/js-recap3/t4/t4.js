@@ -1,3 +1,8 @@
+/*
+Task 4 - Sort Restaurants by Distance
+In the t4.js file, you will find an array containing restaurant data, including their respective locations. The objective of the application is to determine your current location. Then, the application should sort the array of restaurants based on the distance from the nearest to the farthest. Finally, the application should display a list of restaurants in order, starting with the nearest and ending with the farthest. This list should include the names and addresses of the restaurants. You can use the formula for Euclidean distance from JS recap 1.2. It’s not 100% accurate, since earth is not actually flat, but for now it’s close enough.
+*/
+
 const restaurants = [
   {
     location: {type: 'Point', coordinates: [25.018456, 60.228982]},
@@ -770,4 +775,79 @@ const restaurants = [
   },
 ];
 
-// your code here
+// Determine current location
+
+const options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0,
+};
+
+// Called, when location retrieved successfully
+function success(pos) {
+  const coordinates = pos.coords;
+  console.log('Your current position is: ');
+  console.log(`Latitude : ${coordinates.latitude}`);
+  console.log(`Longitude: ${coordinates.longitude}`);
+
+  // Sort restaurant array (nearest to the farthest)
+  const sortedArray = sortByDistance(
+    restaurants,
+    coordinates.latitude,
+    coordinates.longitude
+  );
+
+  // Display sorted array in HTML document
+  displaySorted(sortedArray);
+}
+
+// Called, when error occurs while getting location information
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+
+// Sort array order - In restaurants array, coordinates are: [longitude, latitude]
+function sortByDistance(restaurantArray, currentLat, currentLon) {
+  return restaurantArray.sort((a, b) => {
+    const lonA = a.location.coordinates[0];
+    const latA = a.location.coordinates[1];
+    const lonB = b.location.coordinates[0];
+    const latB = b.location.coordinates[1];
+
+    const distanceA = calculateDistance(currentLat, currentLon, latA, lonA);
+    const distanceB = calculateDistance(currentLat, currentLon, latB, lonB);
+
+    return distanceA - distanceB;
+  });
+}
+
+// Calculate distance between two points: (x1, y1) = current location, (x2, y2) = restaurant location
+function calculateDistance(x1, y1, x2, y2) {
+  return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+}
+
+function displaySorted(array) {
+  const tableElement = document.getElementById('target');
+
+
+  for (let restaurant of array) {
+
+    // Create elements and content
+    const tr = document.createElement('tr');
+
+    const td1 = document.createElement('td');
+    td1.textContent = restaurant.name;
+
+    const td2 = document.createElement('td');
+    td2.textContent = restaurant.address;
+
+    // Append data row elements to table row element
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+
+    // Display content int HTML document
+    tableElement.appendChild(tr);
+  }
+}
+
+navigator.geolocation.getCurrentPosition(success, error, options);
