@@ -1,3 +1,8 @@
+/*
+Task 5 - Add restaurants on a Leaflet map
+In the t5.js file, you will find an array containing restaurant data, including their respective locations. The objective of the application is to add restaurants on a Leaflet map as markers. When a marker is clicked, show the restaurants name and address. Name should be in <h3> element and address should be in <p> element.
+*/
+
 const restaurants = [
   {
     location: {type: 'Point', coordinates: [25.018456, 60.228982]},
@@ -770,4 +775,55 @@ const restaurants = [
   },
 ];
 
-// your code here
+
+// Options for retrieving location information
+const options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0,
+};
+
+// Called when location information is retrieved
+function success(pos) {
+  const crd = pos.coords;
+
+  // Print user location information to the console
+  console.log('Your current position is:');
+  console.log(`Latitude : ${crd.latitude}`);
+  console.log(`Longitude: ${crd.longitude}`);
+  console.log(`More or less ${crd.accuracy} meters.`);
+
+  // Open the Leaflet map in user location (no marker)
+  const map = L.map('map').setView([crd.latitude, crd.longitude], 13);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map);
+
+  /*
+  // User location
+  L.marker([crd.latitude, crd.longitude])
+    .addTo(map)
+    .bindPopup('You are here.')
+    .openPopup();
+    */
+
+  for (let restaurant of restaurants) {
+    const lat = restaurant.location.coordinates[1];
+    const lon = restaurant.location.coordinates[0];
+
+    // Add restaurant to map
+    L.marker([lat, lon]).addTo(map)
+    .bindPopup(`<h3>${restaurant.name}</h3> <p class="address">${restaurant.address}</p>`)
+
+  }
+}
+
+// Called if an error occurs while retrieving location information
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+
+// Start the location search
+navigator.geolocation.getCurrentPosition(success, error, options);
