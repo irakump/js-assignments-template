@@ -5,7 +5,7 @@ Utilize the Fetch API with async/await to make a GET request to the URL https://
 Log the response data to the console.
 */
 
-async function getData() {
+async function fetchData() {
   try {
     const response = await fetch('https://reqres.in/api/users/1', {
       headers: {
@@ -21,4 +21,4 @@ async function getData() {
   }
 }
 
-getData();
+fetchData();
