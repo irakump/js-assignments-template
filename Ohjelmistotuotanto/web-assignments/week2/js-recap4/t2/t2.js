@@ -795,8 +795,9 @@ let restaurants = [
   },
 ];
 
+
 function sortAlphabetical(restaurantArray) {
-  return restaurantArray.sort(function(a, b) {
+  return restaurantArray.sort(function (a, b) {
     if (a.name < b.name) {
       return -1;
     }
@@ -807,7 +808,6 @@ function sortAlphabetical(restaurantArray) {
   });
 }
 
-
 // Display restaurant array in HTML document
 function displayRestaurants(array) {
   const tableElement = document.getElementById('target');
@@ -816,6 +816,8 @@ function displayRestaurants(array) {
     // Create elements and content
     const tr = document.createElement('tr');
     tr.setAttribute('class', 'datarow');
+
+    tr.restaurant = restaurant;   // Save restaurant object
 
     const td1 = document.createElement('td');
     td1.textContent = restaurant.name;
@@ -832,13 +834,13 @@ function displayRestaurants(array) {
   }
 }
 
+// Highlight selected row
 function highlight() {
   const table = document.getElementById('target');
   const rows = table.querySelectorAll('.datarow');
 
-  rows.forEach(row => {
+  rows.forEach((row) => {
     row.addEventListener('click', () => {
-
       // Remove highlight from all rows
       for (let row of rows) {
         row.classList.remove('highlight');
@@ -846,10 +848,31 @@ function highlight() {
 
       // Add highlight to the clicked row
       row.classList.add('highlight');
+
+      displayRestaurantInfo(row.restaurant);
     });
   });
 }
 
+function displayRestaurantInfo(restaurant) {
+  const dialog = document.querySelector('dialog');
+  const dialogDiv = dialog.querySelector('div');
+
+  dialogDiv.innerHTML = `<h3>${restaurant.name}</h3>
+    <p>${restaurant.address}</p>
+    <p>${restaurant.postalCode}</p>
+    <p>${restaurant.city}</p>
+    <p>${restaurant.phone}</p>
+    <p>${restaurant.company}</p>`;
+
+  dialog.showModal();
+
+  const closeButton = document.getElementById('close');
+  closeButton.addEventListener('click', () => {
+    dialog.close();
+  })
+
+}
 
 restaurants = sortAlphabetical(restaurants);
 displayRestaurants(restaurants);
