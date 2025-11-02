@@ -1,4 +1,29 @@
-const restaurants = [
+/*
+Task 2 - Restaurant application
+In the t2.js file, you will find an array containing restaurant data. Your objective is to develop an application that displays a list of restaurants in alphabetical order based on their names. The displayed list should include the names and addresses of the restaurants. Implement the following features in your application:
+
+a. Display the list of restaurants in alphabetical order, showing the restaurant names and addresses.
+
+b. Implement user interactivity as follows:
+
+Introduce a new CSS class named highlight. This class should be designed to alter visual attributes such as background color or font weight, effectively highlighting the selected element.
+
+Utilize the classList property to dynamically add the highlight class to the clicked restaurant’s HTML element.
+
+Ensure exclusive highlighting, meaning only the clicked restaurant’s name should be highlighted. To achieve this, remove the highlight class from other restaurant elements before adding it to the clicked element.
+
+c. The modal window should present detailed information about the selected restaurant, including:
+
+Restaurant name
+Address
+Postal code
+City
+Phone number
+Company
+Ensure that the modal window is appropriately styled and clearly displays the restaurant data.
+*/
+
+let restaurants = [
   {
     location: {type: 'Point', coordinates: [25.018456, 60.228982]},
     _id: '6470d38ecb12107db6fe24c1',
@@ -770,4 +795,62 @@ const restaurants = [
   },
 ];
 
-// your code here
+function sortAlphabetical(restaurantArray) {
+  return restaurantArray.sort(function(a, b) {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  });
+}
+
+
+// Display restaurant array in HTML document
+function displayRestaurants(array) {
+  const tableElement = document.getElementById('target');
+
+  for (let restaurant of array) {
+    // Create elements and content
+    const tr = document.createElement('tr');
+    tr.setAttribute('class', 'datarow');
+
+    const td1 = document.createElement('td');
+    td1.textContent = restaurant.name;
+
+    const td2 = document.createElement('td');
+    td2.textContent = restaurant.address;
+
+    // Append data row elements to table row element
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+
+    // Display content in HTML document
+    tableElement.appendChild(tr);
+  }
+}
+
+function highlight() {
+  const table = document.getElementById('target');
+  const rows = table.querySelectorAll('.datarow');
+
+  rows.forEach(row => {
+    row.addEventListener('click', () => {
+
+      // Remove highlight from all rows
+      for (let row of rows) {
+        row.classList.remove('highlight');
+      }
+
+      // Add highlight to the clicked row
+      row.classList.add('highlight');
+    });
+  });
+}
+
+
+restaurants = sortAlphabetical(restaurants);
+displayRestaurants(restaurants);
+highlight();
