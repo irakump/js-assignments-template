@@ -139,12 +139,6 @@ async function getDailyMenu(restaurant) {
 
     const response = await fetch(url, options);
 
-    console.log(
-      'Daily menu fetch status:',
-      response.status,
-      response.statusText
-    );
-
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
@@ -156,20 +150,18 @@ async function getDailyMenu(restaurant) {
 }
 
 function displayDailyMenu(menu, restaurant) {
-
-  //const dialog = document.querySelector('dialog');
   const menuDiv = document.getElementById('restaurant-menu');
+  menuDiv.innerHTML = `<h3>Menu</h3>`;
+
+  const ul = document.createElement('ul');
+  menuDiv.appendChild(ul);
 
   // Check if menu is available
   if (menu && menu.courses && menu.courses.length > 0) {
 
-    menuDiv.innerHTML = `<h3>Menu</h3><ul>`;
-
     for (let course of menu.courses) {
-      menuDiv.innerHTML += `<li>${course.name} - ${course.price} (${course.diets})</li>`;
+      ul.innerHTML += `<li>${course.name} - ${course.price} (${course.diets})</li>`;
     }
-
-    menuDiv.innerHTML += `</ul>`;
 
     console.log(`Daily menu for ${restaurant.name}:`);
     menu.courses.forEach((course, i) => {
@@ -197,35 +189,6 @@ async function run() {
   displayRestaurants(restaurants);
   highlight();
 
-  // Test daily menu for a specific restaurant
-  /*const testIndex = 10; // index of the restaurant to test
-  const testRestaurant = restaurants[testIndex];
-
-  console.log('Testing restaurant at index', testIndex, ':', testRestaurant);
-
-  if (!testRestaurant || !testRestaurant._id) {
-    console.log('No valid restaurant found or missing _id.');
-    return;
-  }
-
-  console.log('Fetching daily menu for restaurant id:', testRestaurant._id);
-
-  try {
-    const menu = await getDailyMenu(testRestaurant);
-    console.log('Raw menu response:', menu);
-
-    if (menu && Array.isArray(menu.courses) && menu.courses.length > 0) {
-      console.log('Daily menu for', testRestaurant.name, ':');
-      menu.courses.forEach((course, i) => {
-        console.log(`${i + 1}. ${course.name} - ${course.price} (${course.diets})`);
-      });
-    } else {
-      console.log('No courses available for', testRestaurant.name);
-    }
-  } catch (err) {
-    console.log('Error fetching daily menu:', err);
-  }
-*/
 }
 
 run();
