@@ -11,7 +11,7 @@ Implement error handling for the AJAX calls, displaying appropriate messages if 
 Test the app thoroughly to ensure that restaurant data and menus are displayed accurately.
 */
 
-let restaurants = []; // TODO: hae data API:sta
+'use strict';
 
 function sortAlphabetical(restaurantArray) {
   return restaurantArray.sort(function (a, b) {
@@ -34,7 +34,7 @@ function displayRestaurants(array) {
     const tr = document.createElement('tr');
     tr.setAttribute('class', 'datarow');
 
-    tr.restaurant = restaurant;   // Save restaurant object
+    tr.restaurant = restaurant; // Save restaurant object
 
     const td1 = document.createElement('td');
     td1.textContent = restaurant.name;
@@ -87,11 +87,52 @@ function displayRestaurantInfo(restaurant) {
   const closeButton = document.getElementById('close');
   closeButton.addEventListener('click', () => {
     dialog.close();
-  })
-
+  });
 }
 
-restaurants = sortAlphabetical(restaurants);
-displayRestaurants(restaurants);
-highlight();
+async function getRestaurants() {
+  try {
 
+    const options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const url = 'https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants';
+
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    return await response.json(); // restaurants in json-format
+  } catch (error) {
+    // Show error message in HTML document
+    const p = document.createElement('p');
+    p.id = 'error-text';
+    p.textContent = 'Error while fetching restaurants';
+    document.body.appendChild(p);
+
+    console.log('Error while fetching restaurants: ', error.message);
+  }
+}
+
+// TODO: näytä ravintolan päivän ruokalista klikkauksen jälkeen
+
+async function run() {
+  let restaurants = await getRestaurants();
+
+  // Return if no data
+  if (!restaurants) {
+    return;
+  }
+
+  restaurants = sortAlphabetical(restaurants);
+  displayRestaurants(restaurants);
+  highlight();
+}
+
+run();
