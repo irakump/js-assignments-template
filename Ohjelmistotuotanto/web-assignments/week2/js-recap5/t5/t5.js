@@ -71,9 +71,9 @@ function highlight() {
   });
 }
 
-function displayRestaurantInfo(restaurant) {
+async function displayRestaurantInfo(restaurant) {
   const dialog = document.querySelector('dialog');
-  const dialogDiv = dialog.querySelector('div');
+  const dialogDiv = dialog.querySelector('#restaurant-info');
 
   dialogDiv.innerHTML = `<h3>${restaurant.name}</h3>
     <p>${restaurant.address}</p>
@@ -81,6 +81,9 @@ function displayRestaurantInfo(restaurant) {
     <p>${restaurant.city}</p>
     <p>${restaurant.phone}</p>
     <p>${restaurant.company}</p>`;
+
+  const menu = await getDailyMenu(restaurant);
+  displayDailyMenu(menu, restaurant);
 
   dialog.showModal();
 
@@ -92,7 +95,6 @@ function displayRestaurantInfo(restaurant) {
 
 async function getRestaurants() {
   try {
-
     const options = {
       method: 'GET',
       headers: {
@@ -100,7 +102,8 @@ async function getRestaurants() {
       },
     };
 
-    const url = 'https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants';
+    const url =
+      'https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants';
 
     const response = await fetch(url, options);
 
@@ -120,7 +123,67 @@ async function getRestaurants() {
   }
 }
 
-// TODO: näytä ravintolan päivän ruokalista klikkauksen jälkeen
+async function getDailyMenu(restaurant) {
+  try {
+    const lang = 'en';
+    const id = restaurant._id;
+
+    const options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const url = `https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants/daily/${id}/${lang}`;
+
+    const response = await fetch(url, options);
+
+    console.log(
+      'Daily menu fetch status:',
+      response.status,
+      response.statusText
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error while fetching menu: ', error.message);
+  }
+}
+
+function displayDailyMenu(menu, restaurant) {
+
+  //const dialog = document.querySelector('dialog');
+  const menuDiv = document.getElementById('restaurant-menu');
+
+  // Check if menu is available
+  if (menu && menu.courses && menu.courses.length > 0) {
+
+    menuDiv.innerHTML = `<h3>Menu</h3><ul>`;
+
+    for (let course of menu.courses) {
+      menuDiv.innerHTML += `<li>${course.name} - ${course.price} (${course.diets})</li>`;
+    }
+
+    menuDiv.innerHTML += `</ul>`;
+
+    console.log(`Daily menu for ${restaurant.name}:`);
+    menu.courses.forEach((course, i) => {
+      console.log(
+        `${i + 1}. ${course.name} - ${course.price} (${course.diets})`
+      );
+    });
+  } else {
+    menuDiv.innerHTML = `<h3>Menu</h3>
+      <p>Menu is not available</p>`
+
+    console.log(`No menu available for ${restaurant.name}.`);
+  }
+}
 
 async function run() {
   let restaurants = await getRestaurants();
@@ -133,6 +196,36 @@ async function run() {
   restaurants = sortAlphabetical(restaurants);
   displayRestaurants(restaurants);
   highlight();
+
+  // Test daily menu for a specific restaurant
+  /*const testIndex = 10; // index of the restaurant to test
+  const testRestaurant = restaurants[testIndex];
+
+  console.log('Testing restaurant at index', testIndex, ':', testRestaurant);
+
+  if (!testRestaurant || !testRestaurant._id) {
+    console.log('No valid restaurant found or missing _id.');
+    return;
+  }
+
+  console.log('Fetching daily menu for restaurant id:', testRestaurant._id);
+
+  try {
+    const menu = await getDailyMenu(testRestaurant);
+    console.log('Raw menu response:', menu);
+
+    if (menu && Array.isArray(menu.courses) && menu.courses.length > 0) {
+      console.log('Daily menu for', testRestaurant.name, ':');
+      menu.courses.forEach((course, i) => {
+        console.log(`${i + 1}. ${course.name} - ${course.price} (${course.diets})`);
+      });
+    } else {
+      console.log('No courses available for', testRestaurant.name);
+    }
+  } catch (err) {
+    console.log('Error fetching daily menu:', err);
+  }
+*/
 }
 
 run();
