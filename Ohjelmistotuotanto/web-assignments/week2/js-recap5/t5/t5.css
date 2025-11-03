@@ -53,6 +53,20 @@ dialog::backdrop {
   background: rgba(0,0,0,0.3);
 }
 
+.card {
+  display: block;
+  padding: 10px;
+}
+
+.card li {
+  list-style-type: disc;
+  padding: 5px;
+}
+
+.card ul {
+  padding-left: 20px;
+}
+
 /* Modal Close-button */
 #close {
   padding: 5px;
