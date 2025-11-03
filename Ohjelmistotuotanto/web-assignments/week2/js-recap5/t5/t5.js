@@ -75,11 +75,14 @@ async function displayRestaurantInfo(restaurant) {
   const dialog = document.querySelector('dialog');
   const dialogDiv = dialog.querySelector('#restaurant-info');
 
-  dialogDiv.innerHTML = `<h3>${restaurant.name}</h3>
+  dialogDiv.innerHTML = `<h2>Restaurant info</h2>
+    <h3>${restaurant.name}</h3>
+    <h4>Address</h4>
     <p>${restaurant.address}</p>
     <p>${restaurant.postalCode}</p>
     <p>${restaurant.city}</p>
     <p>${restaurant.phone}</p>
+    <h4>Company</h4>
     <p>${restaurant.company}</p>`;
 
   const menu = await getDailyMenu(restaurant);
